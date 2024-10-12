@@ -71,7 +71,7 @@ def main():
     tz = pytz.timezone('Asia/Shanghai')  # 设置为中国时区，或根据需要更改时区
     now = datetime.now(tz)
     formatted_time = now.strftime("%Y-%m-%d %H:%M:%S %Z")  # 包含时区名称
-    print(f"程序运行时间: {formatted_time}\n项目在https://github.com/inkcoo/birthdays_reminder/开源免费")
+    print(f"程序运行时间: {formatted_time}\n项目在https://github.com/inkcoo/birthdays_reminder开源免费")
 
     # 如果有成员生日，发送邮件
     if today_birthdays:
