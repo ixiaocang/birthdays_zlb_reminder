@@ -61,11 +61,13 @@
 
 在“Name”字段中输入一个名称，例如 SMTP_USER 或 SMTP_PASSWORD 或ADMIN_EMAIL。
 
-在“Value”字段中输入你的邮箱和授权码。
+在“Value”字段中输入你的邮箱或授权码或抄送发给的管理员邮箱。
 
 点击“Add secret”按钮保存。
 
 依次添加完SMTP_USER,SMTP_PASSWORD,ADMIN_EMAIL
+
+（依次是你的邮箱，邮箱授权码，抄送发给另一个管理员的邮箱）
 
 ## 到此你的项目就配置好了，在.github/workflows/birthday_reminder.yml工作流中可以手动运行测试
 **也可以在工作流中修改程序运行时间**
