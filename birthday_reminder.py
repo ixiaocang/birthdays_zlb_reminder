@@ -80,12 +80,12 @@ def main():
         if len(today_birthdays) == 1:
             # 只有一位成员生日
             name_with_type = f"{today_birthdays[0][0]} {today_birthdays[0][1]}"
-            subject = f"生日提醒: 今天是心助会-{name_with_type} 的生日"
+            subject = f"生日提醒: 今天是助理部-{name_with_type} 的生日"
             body = f"今天是 {name_with_type} 的生日，请记得祝福 TA！\n\n邮件发送时间: {formatted_time}"
         else:
             # 多位成员生日
             names_with_types = "、".join([f"{name} {birthday_type}" for name, birthday_type in today_birthdays])
-            subject = "生日提醒: 今天有多位成员的生日"
+            subject = "生日提醒: 今天有助理部多位成员的生日"
             body = f"今天是 {names_with_types} 的生日，请记得祝福他们！\n\n邮件发送时间: {formatted_time}"
 
         # 发送邮件给生日人
