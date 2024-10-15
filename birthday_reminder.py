@@ -57,13 +57,14 @@ def main():
     # 添加管理员邮箱
     admin_email = os.getenv('ADMIN_EMAIL')  # 通过环境变量读取管理员邮箱
 
-    # 存储当天生日成员的列表
+    # 存储当天生日成员的列表（包含名字和生日类型）
     today_birthdays = []
 
     for name, date, calendar_type in birthdays:
         if is_birthday_today(date, calendar_type):
-            today_birthdays.append(name)
-            print(f"今天是心助会- {name} 的生日!")
+            birthday_type = "(公历)" if calendar_type == 'a' else "(农历)"
+            today_birthdays.append((name, birthday_type))
+            print(f"今天是心助会- {name} {birthday_type} 的生日!")
         else:
             print(f"{name} 今天不是生日。")
 
@@ -75,14 +76,17 @@ def main():
 
     # 如果有成员生日，发送邮件
     if today_birthdays:
+        # 根据生日成员数量生成提醒内容
         if len(today_birthdays) == 1:
-            # 如果只有一位成员生日
-            subject = f"生日提醒: 今天是心助会-{today_birthdays[0]} 的生日"
-            body = f"今天是 {today_birthdays[0]} 的生日，请记得祝福 TA！\n\n邮件发送时间: {formatted_time}"
+            # 只有一位成员生日
+            name_with_type = f"{today_birthdays[0][0]} {today_birthdays[0][1]}"
+            subject = f"生日提醒: 今天是心助会-{name_with_type} 的生日"
+            body = f"今天是 {name_with_type} 的生日，请记得祝福 TA！\n\n邮件发送时间: {formatted_time}"
         else:
-            # 如果有多位成员生日
+            # 多位成员生日
+            names_with_types = "、".join([f"{name} {birthday_type}" for name, birthday_type in today_birthdays])
             subject = "生日提醒: 今天有多位成员的生日"
-            body = f"今天是 {'、'.join(today_birthdays)} 的生日，请记得祝福他们！\n\n邮件发送时间: {formatted_time}"
+            body = f"今天是 {names_with_types} 的生日，请记得祝福他们！\n\n邮件发送时间: {formatted_time}"
 
         # 发送邮件给生日人
         send_email(subject, body, os.getenv('SMTP_USER'))
