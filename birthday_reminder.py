@@ -19,15 +19,23 @@ def read_birthdays(filename):
                 print(f"跳过格式不正确的行: {line.strip()}")
     return birthdays
 
+# 使用北京时间获取农历日期
+def get_lunar_date_in_beijing():
+    tz = pytz.timezone('Asia/Shanghai')  # 使用北京时间时区
+    now = datetime.now(tz)  # 当前北京时间
+    lunar_date = lunardate.LunarDate.fromSolarDate(now.year, now.month, now.day)
+    return lunar_date
+
 # 判断是否是今天生日
 def is_birthday_today(date, calendar_type):
     tz = pytz.timezone('Asia/Shanghai')  # 使用北京时间
     today = datetime.now(tz)  # 获取当前的北京时间
+
     if calendar_type == 'a':  # 公历
         month, day = map(int, date.split('/'))
         return today.month == month and today.day == day
     elif calendar_type == 'b':  # 农历
-        lunar_today = lunardate.LunarDate.today()
+        lunar_today = get_lunar_date_in_beijing()  # 基于北京时间的农历日期
         month, day = map(int, date.split('/'))
         return lunar_today.month == month and lunar_today.day == day
     return False
@@ -70,7 +78,7 @@ def main():
             print(f"{name} 今天不是生日。")
 
     # 获取程序运行的本地时间并包含时区信息
-    tz = pytz.timezone('Asia/Shanghai')  # 设置为中国时区，或根据需要更改时区
+    tz = pytz.timezone('Asia/Shanghai')  # 设置为中国时区
     now = datetime.now(tz)
     formatted_time = now.strftime("%Y-%m-%d %H:%M:%S %Z")  # 包含时区名称
     print(f"程序运行时间: {formatted_time}\n项目在https://github.com/inkcoo/birthdays_reminder开源免费")
