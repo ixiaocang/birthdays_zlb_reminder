@@ -1,4 +1,4 @@
-# 项目在https://github.com/inkcoo/birthdays_reminder开源免费
+# 项目在https://github.com/inkcoo/birthdays_reminder   开源免费
 import smtplib
 from email.mime.text import MIMEText
 from datetime import datetime
@@ -21,7 +21,8 @@ def read_birthdays(filename):
 
 # 判断是否是今天生日
 def is_birthday_today(date, calendar_type):
-    today = datetime.now()
+    tz = pytz.timezone('Asia/Shanghai')  # 使用北京时间
+    today = datetime.now(tz)  # 获取当前的北京时间
     if calendar_type == 'a':  # 公历
         month, day = map(int, date.split('/'))
         return today.month == month and today.day == day
@@ -64,7 +65,7 @@ def main():
         if is_birthday_today(date, calendar_type):
             birthday_type = "(公历)" if calendar_type == 'a' else "(农历)"
             today_birthdays.append((name, birthday_type))
-            print(f"今天是心助会- {name} {birthday_type} 的生日!")
+            print(f"今天是助理部- {name} {birthday_type} 的生日!")
         else:
             print(f"{name} 今天不是生日。")
 
@@ -85,7 +86,7 @@ def main():
         else:
             # 多位成员生日
             names_with_types = "、".join([f"{name} {birthday_type}" for name, birthday_type in today_birthdays])
-            subject = "生日提醒: 今天有助理部多位成员的生日"
+            subject = "生日提醒: 今天有多位成员的生日"
             body = f"今天是 {names_with_types} 的生日，请记得祝福他们！\n\n邮件发送时间: {formatted_time}"
 
         # 发送邮件给生日人
